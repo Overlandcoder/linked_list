@@ -37,9 +37,33 @@ class LinkedList
     end
     nodes
   end
+
+  def head
+    @head.value
+  end
+
+  def tail
+    @temp = @head
+    @temp = @temp.next_node until @temp.next_node.nil?
+    @temp.value
+  end
+
+  def at(index)
+    @temp = @head
+    counter = 1
+    until @temp.nil?
+      return @temp.value if index == 0
+      @temp = @temp.next_node
+      return @temp.value if counter == index
+      counter += 1
+    end
+  end
 end
 
 list = LinkedList.new
+list.append(1)
 list.append(2)
-list.prepend(1)
-puts list.size
+list.append(3)
+puts list.at(1)
+puts list.at(2)
+
