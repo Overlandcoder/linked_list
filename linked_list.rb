@@ -107,15 +107,7 @@ class LinkedList
   end
 
   def remove_at(index)
-    node = @head
-    i = 0
-    until i == index
-      node = node.next_node
-      i += 1
-      if i == index
-        at(index - 1).next_node = at(index + 1)
-      end
-    end
+    at(index - 1).next_node = at(index).next_node
   end
 end
 
