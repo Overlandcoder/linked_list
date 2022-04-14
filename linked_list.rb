@@ -100,15 +100,20 @@ class LinkedList
   end
 
   def insert_at(value, index)
+    new_node = Node.new(value)
+    node = at(index)
+    at(index - 1).next_node = new_node
+    new_node.next_node = node
+  end
+
+  def remove_at(index)
     node = @head
     i = 0
     until i == index
       node = node.next_node
       i += 1
       if i == index
-        new_node = Node.new(value)
-        new_node.next_node = at(index + 1)
-        at(index - 1).next_node = new_node
+        at(index - 1).next_node = at(index + 1)
       end
     end
   end
@@ -119,8 +124,8 @@ list.append(1)
 list.append(2)
 list.append(3)
 list.append(4)
-puts list.contains?(3)
-p list.find(4)
 p list.to_s
 list.insert_at(0, 2)
+p list.to_s
+list.remove_at(2)
 p list.to_s
