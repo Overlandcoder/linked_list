@@ -12,27 +12,27 @@ class LinkedList
     if @head.nil?
       prepend(value)
     else
-      @temp = @head
-      @temp = @temp.next_node until @temp.next_node.nil?
-      @temp.next_node = Node.new(value)
+      node = @head
+      node = node.next_node until node.next_node.nil?
+      node.next_node = Node.new(value)
     end
   end
 
   def prepend(value)
-    @temp = Node.new(value)
+    node = Node.new(value)
     if @head.nil?
-      @head = @temp
+      @head = node
     else
-      @temp.next_node = @head.next_node
-      @head.next_node = @temp
+      node.next_node = @head.next_node
+      @head.next_node = node
     end
   end
 
   def size
-    @temp = @head
+    node = @head
     nodes = 0
-    until @temp.nil?
-      @temp = @temp.next_node
+    until node.nil?
+      node = node.next_node
       nodes += 1
     end
     nodes
@@ -43,19 +43,37 @@ class LinkedList
   end
 
   def tail
-    @temp = @head
-    @temp = @temp.next_node until @temp.next_node.nil?
-    @temp.value
+    @tail = @head
+    @tail = node.next_node until node.next_node.nil?
+    @tail
   end
 
   def at(index)
-    @temp = @head
+    node = @head
     counter = 1
-    until @temp.nil?
-      return @temp.value if index == 0
-      @temp = @temp.next_node
-      return @temp.value if counter == index
+    until node.next_node.nil?
+      return node.value if index == 0
+      node = node.next_node
+      return node.value if counter == index
       counter += 1
+    end
+  end
+
+  def pop
+    node = @head
+    if node.next_node.nil?
+      @head = @head.next_node
+    else
+      node = node.next_node until node.next_node.next_node.nil?
+      node.next_node = node.next_node.next_node
+    end
+  end
+
+  def contains?(value)
+    node = @head
+    until node.nil?
+      return true if node.value == value
+      node = node.next_node
     end
   end
 end
@@ -64,6 +82,4 @@ list = LinkedList.new
 list.append(1)
 list.append(2)
 list.append(3)
-puts list.at(1)
-puts list.at(2)
-
+puts list.contains?(3)
