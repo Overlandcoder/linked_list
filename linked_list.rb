@@ -1,3 +1,5 @@
+require 'pry-byebug'
+
 class Node
   attr_accessor :value, :next_node
 
@@ -52,9 +54,9 @@ class LinkedList
     node = @head
     counter = 1
     until node.next_node.nil?
-      return node.value if index == 0
+      return node if index == 0
       node = node.next_node
-      return node.value if counter == index
+      return node if counter == index
       counter += 1
     end
   end
@@ -76,10 +78,49 @@ class LinkedList
       node = node.next_node
     end
   end
+
+  def find(value)
+    node = @head
+    index = 0
+    until node.next_node.nil?
+      return index if node.value == value
+      node = node.next_node
+      index += 1
+    end
+    return nil if !contains?(value)
+    index
+  end
+
+  def to_s
+    node = @head
+    until node.nil?
+      puts "#{node.value}"
+      node = node.next_node
+    end
+  end
+
+  def insert_at(value, index)
+    node = @head
+    i = 0
+    until i == index
+      node = node.next_node
+      i += 1
+      if i == index
+        new_node = Node.new(value)
+        new_node.next_node = at(index + 1)
+        at(index - 1).next_node = new_node
+      end
+    end
+  end
 end
 
 list = LinkedList.new
 list.append(1)
 list.append(2)
 list.append(3)
+list.append(4)
 puts list.contains?(3)
+p list.find(4)
+p list.to_s
+list.insert_at(0, 2)
+p list.to_s
