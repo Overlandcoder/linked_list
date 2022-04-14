@@ -25,8 +25,8 @@ class LinkedList
     if @head.nil?
       @head = node
     else
-      node.next_node = @head.next_node
-      @head.next_node = node
+      node.next_node = @head
+      @head = node
     end
   end
 
@@ -41,7 +41,7 @@ class LinkedList
   end
 
   def head
-    @head.value
+    @head
   end
 
   def tail
@@ -101,13 +101,24 @@ class LinkedList
 
   def insert_at(value, index)
     new_node = Node.new(value)
-    node = at(index)
-    at(index - 1).next_node = new_node
-    new_node.next_node = node
+    if index.zero?
+      Node.new(value, @head)
+    else
+      node = at(index)
+      at(index - 1).next_node = new_node
+      new_node.next_node = node
+    end
   end
 
   def remove_at(index)
-    at(index - 1).next_node = at(index).next_node
+    if index.zero?
+      @head = @head.next_node
+    elsif at(index) == @tail
+      @tail = at(index - 1)
+      at(index - 1).next_node = at(index).next_node
+    else
+      at(index - 1).next_node = at(index).next_node
+    end
   end
 end
 
@@ -117,7 +128,7 @@ list.append(2)
 list.append(3)
 list.append(4)
 p list.to_s
-list.insert_at(0, 2)
+list.insert_at(0, 1)
 p list.to_s
-list.remove_at(2)
+list.remove_at(4)
 p list.to_s
